@@ -32,7 +32,7 @@ pipeline {
 
                 script {
                     docker.withDockerRegistry("${CONTAINER_REG_URL}", "jen-pat") {
-                        'sh docker push ${IMAGE_TAG}'
+                        sh 'docker push ${IMAGE_TAG}'
                     }
                 }
             }
