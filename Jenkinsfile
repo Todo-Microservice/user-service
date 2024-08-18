@@ -7,6 +7,7 @@ pipeline {
         ARTIFACT_ID = readMavenPom().getArtifactId()
         JAR_NAME = "${ARTIFACT_ID}-${BUILD_NUMBER}"
         IMAGE_NAME = "${CONTAINER_REG}${ARTIFACT_ID}"
+        IMAGE_TAG = "${IMAGE_NAME}:${BUILD_NUMBER}"
     }
 
     stages {
@@ -20,7 +21,7 @@ pipeline {
         stage("Build Container Image") {
             steps {
                 sh 'echo Building container image: ${IMAGE_NAME}'
-                sh 'mvn spring-boot:build-image -DjarName=${JAR_NAME} -Dspring-boot.build-image.imageName=${IMAGE_NAME}'
+                sh 'docker build --build-arg JAR_FILE=target/${JAR_NAME}.jar -t ${IMAGE_TAG} .'
             }
         }
         
