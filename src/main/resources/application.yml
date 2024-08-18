@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: UserService
+  datasource:
+    url: jdbc:postgresql://postgres:5432/USER_SERVICE
+    username: admin
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+server:
+  port: 8080
+   
+springdoc:
+  swagger-ui.path: /openapi/swagger-ui.html
+  api-docs.path: /openapi/v3/api-docs
+  packagesToScan: com.example.demo.controller
+  
+  
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka  
+      
+logging:
+  file:
+    name: logs\user-service.log    
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+  level:
+    brave: DEBUG
+    io:
+      micometer:
+        tracing: DEBUG
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      
+info:
+  app:
+    name: ${spring.application.name}
+    description: User service application
+    version: 1.0
+      
+resilience4j:
+  circuitbreaker:
+    configs:
+      userServiceCB:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 2
+        failureRateThreshold: 50
+        waitDurationInOpenState: 1000 
+        
+        
+        
+        
