@@ -13,7 +13,7 @@ pipeline {
         stage("Build Application") {
             steps {
                 sh 'echo Performing maven build: ${ARTIFACT_ID}'
-                sh './mvnw -DjarName=${JAR_NAME} clean package'
+                sh 'mvn -DjarName=${JAR_NAME} clean package'
             }
         }
 
