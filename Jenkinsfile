@@ -31,7 +31,7 @@ pipeline {
                 sh 'echo Publishing container image: ${CONTAINER_REG}'
 
                 script {
-                    docker.withDockerRegistry("${CONTAINER_REG_URL}", "jen-pat") {
+                    docker.withRegistry("${CONTAINER_REG_URL}", "jen-pat") {
                         sh 'docker push ${IMAGE_TAG}'
                     }
                 }
