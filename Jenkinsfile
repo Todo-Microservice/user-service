@@ -15,17 +15,13 @@ pipeline {
                 sh 'echo Performing maven build: ${ARTIFACT_ID}'
             }
         }
-    }
 
-    stages {
         stage("Build Container Image") {
             steps {
                 sh 'echo Building container image: ${IMAGE_NAME}'
             }
         }
-    }
-
-    stages {
+        
         stage("Publish Container Image") {
             steps {
                 sh 'echo Publishing container image: ${CONTAINER_REG}'
