@@ -4,6 +4,7 @@ pipeline {
     environment {
         GITHUB_ORG = 'todo-microservice'
         CONTAINER_REG = "ghcr.io/${GITHUB_ORG}/"
+        CONTAINER_REG_URL = "https://${CONTAINER_REG}"
         ARTIFACT_ID = readMavenPom().getArtifactId()
         JAR_NAME = "${ARTIFACT_ID}-${BUILD_NUMBER}"
         IMAGE_NAME = "${CONTAINER_REG}${ARTIFACT_ID}"
@@ -28,6 +29,12 @@ pipeline {
         stage("Publish Container Image") {
             steps {
                 sh 'echo Publishing container image: ${CONTAINER_REG}'
+
+                script {
+                    docker.withRegistry("${CONTAINER_REG_URL}", "jen-pat") {
+                        'sh docker push ${IMAGE_TAG}'
+                    }
+                }
             }
         }
     }
