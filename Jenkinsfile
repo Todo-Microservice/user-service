@@ -20,7 +20,7 @@ pipeline {
         stage("Build Container Image") {
             steps {
                 sh 'echo Building container image: ${IMAGE_NAME}'
-                sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${IMAGE_NAME}'
+                sh 'mvn spring-boot:build-image -DjarName=${JAR_NAME} -Dspring-boot.build-image.imageName=${IMAGE_NAME}'
             }
         }
         
